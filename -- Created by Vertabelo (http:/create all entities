@@ -1,0 +1,93 @@
+-- Created by Vertabelo (http://vertabelo.com)
+-- Last modification date: 2021-12-15 10:27:32.266
+
+-- tables
+-- Table: Appointment
+CREATE TABLE Appointment (
+    Appointment_ID Int NOT NULL,
+    Appointment_Date_Time DateTime NOT NULL,
+    Treatment_ID Int NOT NULL,
+    Doctor_ID Int NOT NULL,
+    Patient_ID Int NOT NULL,
+    CONSTRAINT Appointment_pk PRIMARY KEY (Appointment_ID)
+);
+
+-- Table: Bill
+CREATE TABLE Bill (
+    Bill_ID Int NOT NULL,
+    Bill_Amount Decimal(5,2) NOT NULL,
+    Bill_Date Date NOT NULL,
+    Prescription_ID Int NOT NULL,
+    CONSTRAINT Bill_pk PRIMARY KEY (Bill_ID)
+);
+
+-- Table: Doctor
+CREATE TABLE Doctor (
+    Doctor_ID Int NOT NULL,
+    Full_Name Varchar(30) NOT NULL,
+    Address Varchar(40) NOT NULL,
+    Contact_Number Int NOT NULL,
+    Date_Of_Birth Date NOT NULL,
+    Gender Varchar(10) NOT NULL,
+    Email_Id Varchar(30) NOT NULL,
+    Specialty Varchar(40) NOT NULL,
+    Experience_Year Int NOT NULL,
+    CONSTRAINT Doctor_pk PRIMARY KEY (Doctor_ID)
+);
+
+-- Table: Patient
+CREATE TABLE Patient (
+    Patient_ID Int NOT NULL,
+    Full_Name Varchar(30) NOT NULL,
+    Address Varchar(40) NOT NULL,
+    Contact_Number Int NOT NULL,
+    Date_Of_Birth Date NOT NULL,
+    Gender Varchar(10) NOT NULL,
+    Email_Id Varchar(30) NOT NULL,
+    Health_History Varchar(40) NOT NULL,
+    Patient_Type Varchar(20) NOT NULL,
+    CONSTRAINT Patient_pk PRIMARY KEY (Patient_ID)
+);
+
+-- Table: Prescription
+CREATE TABLE Prescription (
+    Prescription_ID Int NOT NULL,
+    Medicine_Name Varchar(30) NOT NULL,
+    Quantity Int NOT NULL,
+    Total_Price Decimal(5,2) NOT NULL,
+    Appointment_ID Int NOT NULL,
+    CONSTRAINT Prescription_pk PRIMARY KEY (Prescription_ID)
+);
+
+-- Table: Treatment
+CREATE TABLE Treatment (
+    Treatment_ID Int NOT NULL,
+    Treatment_Desc Varchar(40) NOT NULL,
+    Treatment_Days Int NOT NULL,
+    Diseases Varchar(30) NOT NULL,
+    CONSTRAINT Treatment_pk PRIMARY KEY (Treatment_ID)
+);
+
+-- foreign keys
+-- Reference: Appointment_Doctor (table: Appointment)
+ALTER TABLE Appointment ADD CONSTRAINT Appointment_Doctor FOREIGN KEY Appointment_Doctor (Doctor_ID)
+    REFERENCES Doctor (Doctor_ID);
+
+-- Reference: Appointment_Patient (table: Appointment)
+ALTER TABLE Appointment ADD CONSTRAINT Appointment_Patient FOREIGN KEY Appointment_Patient (Patient_ID)
+    REFERENCES Patient (Patient_ID);
+
+-- Reference: Appointment_Treatment (table: Appointment)
+ALTER TABLE Appointment ADD CONSTRAINT Appointment_Treatment FOREIGN KEY Appointment_Treatment (Treatment_ID)
+    REFERENCES Treatment (Treatment_ID);
+
+-- Reference: Bill_Prescription (table: Bill)
+ALTER TABLE Bill ADD CONSTRAINT Bill_Prescription FOREIGN KEY Bill_Prescription (Prescription_ID)
+    REFERENCES Prescription (Prescription_ID);
+
+-- Reference: Prescription_Appointment (table: Prescription)
+ALTER TABLE Prescription ADD CONSTRAINT Prescription_Appointment FOREIGN KEY Prescription_Appointment (Appointment_ID)
+    REFERENCES Appointment (Appointment_ID);
+
+-- End of file.
+
